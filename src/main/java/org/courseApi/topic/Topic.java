@@ -1,4 +1,4 @@
-package org.courseApi;
+package org.courseApi.topic;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

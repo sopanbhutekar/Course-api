@@ -1,4 +1,4 @@
-package org.courseApi;
+package org.courseApi.topic;
 
 import java.util.List;
 

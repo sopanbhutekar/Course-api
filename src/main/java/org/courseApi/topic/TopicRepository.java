@@ -1,4 +1,4 @@
-package org.courseApi;
+package org.courseApi.topic;
 
 import org.springframework.data.repository.CrudRepository;
 
