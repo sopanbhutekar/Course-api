@@ -31,6 +31,12 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
 		return ResponseEntity.status(404).body(errorMessage);		
 	}
 	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorMessage> handleException(Exception ex){
+		ErrorMessage errorMessage= new ErrorMessage(500,"Internal Server Error", ex.getMessage());
+		return ResponseEntity.status(404).body(errorMessage);		
+	}
+	
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(
 			HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
