@@ -22,3 +22,7 @@ This is sample spring boot project from scratch, starting as maven project
 2. get health {endpoint}/actuator/health
 3. get beans {endpoint}/actuator/beans
 4. get threaddump {endpoint}/actuator/threaddump
+
+# Exception Handling:
+1. Custom Exception Handling like TopicNotFoundException and CourseNotFoundException 
+2. HttpMessageNotReadableException and HttpRequestMethodNotSupportedException by overriding methods from ResponseEntityExceptionHandler

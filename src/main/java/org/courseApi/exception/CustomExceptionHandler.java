@@ -44,6 +44,4 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
 		ErrorMessage errorMessage= new ErrorMessage(status.value(),ex.getMessage(),ex.getStackTrace().toString());
 		return ResponseEntity.badRequest().body(errorMessage);
 	}
-	
-
 }
