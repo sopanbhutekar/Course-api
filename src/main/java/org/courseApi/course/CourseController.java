@@ -3,6 +3,7 @@ package org.courseApi.course;
 import java.util.List;
 
 import org.courseApi.exception.CourseNotFoundException;
+import org.courseApi.exception.TopicNotFoundException;
 import org.courseApi.topic.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +24,17 @@ public class CourseController {
 	private final String courseNotFound=" Course Not Found"; 
 	
 	@RequestMapping(method=RequestMethod.GET, value="/topics/{topicId}/courses")
-	public ResponseEntity<List<Course>> getCourses(@PathVariable(value="topicId", required=true) String topicId){		
+	public ResponseEntity<List<Course>> getCourses(@PathVariable(value="topicId", required=true) String topicId){
+		
+		
+		
 		return ResponseEntity.ok(courseRepository.findByTopicId(topicId));
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value="/topics/{topicId}/courses/{id}")
-	public ResponseEntity<Course> getCourse(@PathVariable String id) {
-		
+	public ResponseEntity<Course> getCourse(@PathVariable String id, @PathVariable String topicId) {
+		if(!topicRepository.findById(topicId).isPresent())
+			throw new TopicNotFoundException(topicId+courseNotFound, 404);
 		Course course=null;
 		if(courseRepository.findById(id).isPresent()) {
 				course=courseRepository.findById(id).get();
@@ -45,6 +50,9 @@ public class CourseController {
 	public void addCourse(@PathVariable String topicId, @RequestBody Course course) {
 		if(topicRepository.findById(topicId).isPresent())
 			course.setTopic(topicRepository.findById(topicId).get());
+		else {
+			throw new TopicNotFoundException(topicId+" Topic Not Found", 404);
+		}
 		courseRepository.save(course);
 		//TODO: Exception if topicId not found 
 	}
@@ -53,12 +61,18 @@ public class CourseController {
 	public void updateCourse(@PathVariable String id, @RequestBody Course course, @PathVariable String topicId) {
 		if(topicRepository.findById(topicId).isPresent())
 			course.setTopic(topicRepository.findById(topicId).get());
+		else {
+			throw new TopicNotFoundException(topicId+" Topic Not Found", 404);
+		}
 		courseRepository.save(course);
 		//TODO: Exception if topicId not found
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE, value="/topics/{topicId}/courses/{id}")
-	public void deleteCourse(@PathVariable String id) {
+	public void deleteCourse(@PathVariable String id, @PathVariable String topicId) {
+		if(!topicRepository.findById(topicId).isPresent()) {
+			throw new TopicNotFoundException(topicId+" Topic Not Found", 404);
+		}
 		courseRepository.deleteById(id);
 	}
 }
