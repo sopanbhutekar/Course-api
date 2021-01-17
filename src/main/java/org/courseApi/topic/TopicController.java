@@ -2,6 +2,7 @@ package org.courseApi.topic;
 
 import java.util.List;
 
+import org.courseApi.exception.TopicNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TopicController {
 	
+	
 	@Autowired
 	private TopicService topicService;
+	
+	private final String topicNotFound=" Topic Not Found";
 	
 	@RequestMapping(value="/topics", method=RequestMethod.GET)
 	public ResponseEntity<List<Topic>> getTopics(){
@@ -25,7 +29,7 @@ public class TopicController {
 	public ResponseEntity<Topic> getTopic(@PathVariable("id") String id) {
 		Topic topic=topicService.getTopic(id);
 		if(null==topic) {
-			return ResponseEntity.notFound().build();
+			throw new TopicNotFoundException(id+topicNotFound,404);
 		}		
 		return ResponseEntity.ok(topic);
 	}

@@ -2,6 +2,7 @@ package org.courseApi.course;
 
 import java.util.List;
 
+import org.courseApi.exception.CourseNotFoundException;
 import org.courseApi.topic.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,8 @@ public class CourseController {
 	@Autowired
 	private TopicRepository topicRepository;
 	
+	private final String courseNotFound=" Course Not Found"; 
+	
 	@RequestMapping(method=RequestMethod.GET, value="/topics/{topicId}/courses")
 	public ResponseEntity<List<Course>> getCourses(@PathVariable(value="topicId", required=true) String topicId){		
 		return ResponseEntity.ok(courseRepository.findByTopicId(topicId));
@@ -32,7 +35,7 @@ public class CourseController {
 				course=courseRepository.findById(id).get();
 		}
 		if(null==course) {
-			return ResponseEntity.status(404).build();
+			throw new CourseNotFoundException(404,id+courseNotFound);
 		}
 		
 		return ResponseEntity.ok(course);
