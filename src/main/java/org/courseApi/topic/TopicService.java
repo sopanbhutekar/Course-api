@@ -20,7 +20,10 @@ public class TopicService {
 	}
 
 	public Topic getTopic(String id) {
+		if(topicRepository.findById(id).isPresent())
 		return topicRepository.findById(id).get();
+		
+		return null;
 	}
 
 	public void addTopic(Topic topic) {

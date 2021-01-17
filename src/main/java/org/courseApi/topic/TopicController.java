@@ -3,6 +3,7 @@ package org.courseApi.topic;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +17,17 @@ public class TopicController {
 	private TopicService topicService;
 	
 	@RequestMapping(value="/topics", method=RequestMethod.GET)
-	public List<Topic> getTopics(){
-		return topicService.getTopics();
+	public ResponseEntity<List<Topic>> getTopics(){
+		return ResponseEntity.ok(topicService.getTopics());
 	}
 	
 	@RequestMapping(value="/topics/{id}", method=RequestMethod.GET)
-	public Topic getTopic(@PathVariable("id") String id) {
-		return topicService.getTopic(id);
+	public ResponseEntity<Topic> getTopic(@PathVariable("id") String id) {
+		Topic topic=topicService.getTopic(id);
+		if(null==topic) {
+			return ResponseEntity.notFound().build();
+		}		
+		return ResponseEntity.ok(topic);
 	}
 	
 	@RequestMapping(value="/topics", method=RequestMethod.POST)
