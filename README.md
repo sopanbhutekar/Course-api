@@ -26,3 +26,9 @@ This is sample spring boot project from scratch, starting as maven project
 # Exception Handling:
 1. Custom Exception Handling like TopicNotFoundException and CourseNotFoundException 
 2. HttpMessageNotReadableException and HttpRequestMethodNotSupportedException by overriding methods from ResponseEntityExceptionHandler
+
+#Swagger UI:
+{endpoint}/swagger-ui.html
+
+#Swagger2 Docs:
+{endpoint}/v2/api-docs
